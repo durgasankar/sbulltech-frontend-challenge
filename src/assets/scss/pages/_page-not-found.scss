@@ -1,0 +1,12 @@
+.not-found {
+    @include position-center;
+    text-align: center;
+
+    &--title {
+        color: $dark-gray-color;
+    }
+
+    &--subtitle {
+        color: $light-gray-color;
+    }
+}
