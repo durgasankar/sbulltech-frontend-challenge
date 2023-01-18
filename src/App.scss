@@ -1,9 +1,12 @@
+// resuable mixins
+@import "./assets/scss/base/mixins";
 // constants
 @import "./assets/scss/base/constants";
 // typography
 @import "./assets/scss/base/typography";
-// resuable mixins
-@import "./assets/scss/base/mixins";
 
 // pages
 @import "./assets/scss/pages/page-not-found";
+
+// layouts
+@import "./assets/scss/layout/header";

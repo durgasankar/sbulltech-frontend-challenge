@@ -1,6 +1,41 @@
+// for positioning at center
 @mixin position-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+// Media query manager
+/*
+0-600px: Phone || argument choice - phone
+600-900px: tablet portrait || argument choice - tab-port
+900-1200px: tablet landscape || argument choice - tab-land
+1200-1800+px: big screen || argument choice - big-screen
+*/
+// based on provided screen size via breakpoint it will respond accordingly
+@mixin respond($breakPoint) {
+    @if $breakPoint ==phone {
+        @media (max-width: 600px) {
+            @content
+        }
+    }
+
+    @if $breakPoint ==tab-port {
+        @media (max-width: 900px) {
+            @content
+        }
+    }
+
+    @if $breakPoint ==tab-land {
+        @media (max-width: 1200px) {
+            @content
+        }
+    }
+
+    @if $breakPoint ==big-screen {
+        @media (min-width: 1800px) {
+            @content
+        }
+    }
 }
