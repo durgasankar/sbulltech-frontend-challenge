@@ -1,14 +1,20 @@
+import React, { Suspense } from 'react';
 import './App.scss';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageNotFound from './common/PageNotFound';
+import StocksPage from './components/StocksPage';
 
 function App() {
   return (
     <div >
       <BrowserRouter>
-        <Routes>
-          <Route path='/404' element={<PageNotFound />} />
-        </Routes>
+        <Suspense fallback={<div className='heading-primary'>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<StocksPage />} />
+            <Route path="/stocks" element={<StocksPage />} />
+            <Route path='*' element={<PageNotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </div>
   );
