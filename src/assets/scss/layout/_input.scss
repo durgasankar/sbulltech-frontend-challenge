@@ -2,6 +2,21 @@
 .ui.input>input {
     transition: all 0.3s;
     margin: 0;
+    width: 25rem;
+    height: 2.8rem;
+
+    @include respond(tab-land) {
+        width: 20rem;
+    }
+
+    @include respond(tab-port) {
+        width: 15rem;
+    }
+
+    @include respond(phone) {
+        width: 10rem;
+        height: 2.4rem;
+    }
 
     &:focus {
         border-color: rgba($primary-color, 0.5);

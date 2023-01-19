@@ -1,6 +1,7 @@
 import React from 'react';
 import sbullLogo from '../assets/images/sensibull_logo.png';
 import CustomSearchBox from './CustomSearchBox';
+import CustomButton from './CustomButton';
 
 export default function Header() {
     return (
@@ -11,7 +12,11 @@ export default function Header() {
             <div className="header__search">
                 <CustomSearchBox />
             </div>
-            <div className="header__login"></div>
+            <div className="header__login">
+                <CustomButton
+                    buttonText='LOGIN'
+                />
+            </div>
         </header>
     )
 }

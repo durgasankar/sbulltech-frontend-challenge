@@ -1,0 +1,29 @@
+.custom-button {
+    padding: 0.75rem 3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background-color: $primary-color;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    transition: box-shadow .2s ease-out 0s, box-shadow .2s ease-out 0s;
+    transition: ease-out;
+    backface-visibility: hidden;
+
+    @include respond(tab-port) {
+        padding: 0.75rem 2rem;
+    }
+
+    @include respond(phone) {
+        padding: 0.5rem 1rem;
+    }
+
+    &:hover {
+        box-shadow: 0 1px 3px 0 rgba($dark-gray-color, 0.1), 0 8px 16px 0 rgba($dark-gray-color, 0.2);
+        cursor: pointer;
+    }
+
+    &:active {
+        transform: translateY(-1px);
+    }
+}

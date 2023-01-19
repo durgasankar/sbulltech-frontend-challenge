@@ -1,13 +1,20 @@
 .header {
     height: $header-height;
     background-color: rgba($light-gray-color, 0.08);
-    // background-color: red;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 5rem;
     border-bottom: 1px solid rgba($light-gray-color, 0.5);
     overflow: hidden;
+
+    @include respond(tab-port) {
+        padding: 0.5rem 4rem;
+    }
+
+    @include respond(phone) {
+        padding: 0.5rem 1rem;
+    }
 
     &__logo {
         border-radius: 3px;
@@ -17,6 +24,10 @@
             height: 100%;
             width: auto;
             filter: opacity(.9);
+
+            @include respond(phone) {
+                width: 8rem;
+            }
 
             &:hover {
                 filter: opacity(1);
@@ -31,10 +42,4 @@
             }
         }
     }
-
-    &__search {
-        
-    }
-
-    &__login {}
 }
