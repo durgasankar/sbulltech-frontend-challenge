@@ -5,8 +5,9 @@
 // typography
 @import "./assets/scss/base/typography";
 
-// pages
-@import "./assets/scss/pages/page-not-found";
-
 // layouts
 @import "./assets/scss/layout/header";
+@import "./assets/scss/layout/input";
+
+// pages
+@import "./assets/scss/pages/page-not-found";

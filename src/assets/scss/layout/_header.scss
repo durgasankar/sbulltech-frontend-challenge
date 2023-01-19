@@ -4,14 +4,18 @@
     // background-color: red;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0.5rem 5rem;
     border-bottom: 1px solid rgba($light-gray-color, 0.5);
+    overflow: hidden;
 
     &__logo {
         border-radius: 3px;
+        height: 8vh;
 
         &--image {
             height: 100%;
+            width: auto;
             filter: opacity(.9);
 
             &:hover {
@@ -28,7 +32,9 @@
         }
     }
 
-    &__search {}
+    &__search {
+        
+    }
 
     &__login {}
 }

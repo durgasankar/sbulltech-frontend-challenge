@@ -1,0 +1,17 @@
+/* overriding the border color for React symantic UI select project */
+.ui.input>input {
+    transition: all 0.3s;
+    margin: 0;
+
+    &:focus {
+        border-color: rgba($primary-color, 0.5);
+    }
+
+    &:active {
+        border-color: rgba($primary-color, 0.5);
+    }
+
+    &:hover {
+        border-color: rgba($light-gray-color, 0.8);
+    }
+}
