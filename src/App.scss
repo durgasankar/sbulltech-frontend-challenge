@@ -7,8 +7,12 @@
 
 // layouts
 @import "./assets/scss/layout/header";
-@import "./assets/scss/layout/input";
-@import "./assets/scss/layout/button";
+@import "./assets/scss/layout/footer";
+
+// components
+@import "./assets/scss/components/input";
+@import "./assets/scss/components/button";
 
 // pages
 @import "./assets/scss/pages/page-not-found";
+@import "./assets/scss/pages/stocks-page";
