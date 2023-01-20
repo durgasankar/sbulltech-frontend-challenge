@@ -1,36 +1,39 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { Icon, Label, Menu, Table } from 'semantic-ui-react';
-
-const StocksList = () => {
+const getRandomNumbers = () => Math.random();
+const StocksList = ({ stocks, headers }) => {
+    console.log(stocks, headers);
+    let id = useId();
     return (
         <>
             <Table celled>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Header</Table.HeaderCell>
-                        <Table.HeaderCell>Header</Table.HeaderCell>
-                        <Table.HeaderCell>Header</Table.HeaderCell>
+                        {
+                            headers.map((header, index) => {
+                                return (<Table.HeaderCell key={index}>{header}</Table.HeaderCell>)
+                            })
+                        }
                     </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Label ribbon>First</Label>
-                        </Table.Cell>
-                        <Table.Cell>Cell</Table.Cell>
-                        <Table.Cell>Cell</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>Cell</Table.Cell>
-                        <Table.Cell>Cell</Table.Cell>
-                        <Table.Cell>Cell</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>Cell</Table.Cell>
-                        <Table.Cell>Cell</Table.Cell>
-                        <Table.Cell>Cell</Table.Cell>
-                    </Table.Row>
+                    {
+                        stocks.map((stock, index) => {
+                            console.log(stock);
+                            return (
+                                <Table.Row key={index * getRandomNumbers()}>
+                                    {
+                                        headers.map((header, index) => {
+                                            return (
+                                                <Table.Cell key={index * getRandomNumbers()} >{stock[header]}</Table.Cell>
+                                            )
+                                        })
+                                    }
+                                </Table.Row>
+                            )
+                        })
+                    }
                 </Table.Body>
 
                 <Table.Footer>

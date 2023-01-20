@@ -1,11 +1,12 @@
 /**
  * Responsible for converting csv to json format
  * @param {*String} csv 
- * @returns JsonArray
+ * @returns {Array,Array} Headers,Body
  */
 export const csvToJson = csv => {
+    let body = [];
+    if (csv === "" || csv === undefined || csv === null) return body;
     let lines = csv.split("\n");
-    let results = [];
     let headers = lines[0].split(",");
     for (let i = 1; i < lines.length - 1; i++) {
         let obj = {};
@@ -13,7 +14,7 @@ export const csvToJson = csv => {
         for (let j = 0; j < headers.length; j++) {
             obj[headers[j]] = currentLine[j];
         }
-        results.push(obj);
+        body.push(obj);
     }
-    return results;
+    return { headers, body };
 }

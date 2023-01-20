@@ -13,15 +13,20 @@ class StocksPage extends Component {
         this.state = {
             isInitialpageLoading: true,
             Stocks: [],
+            stocksHeaders: [],
 
         }
     }
     componentDidMount() {
         this.getStocksList();
     }
+
     getStocksList = async () => {
         await GetRequest(API.INSTUMENTS)
-            .then(async response => this.setState({ stocks: [...csvToJson(response.data)] }))
+            .then(async response => {
+                const parsedJson = csvToJson(response.data);
+                this.setState({ stocks: [...parsedJson.body], stocksHeaders: [...parsedJson.headers] })
+            })
             .catch(async errors => errors && this.props.history.push('/404'))
         await this._isLoading(false);
     }
@@ -39,7 +44,10 @@ class StocksPage extends Component {
                         : <>
                             <Header />
                             <section className='stocks-container'>
-                                <StocksList />
+                                <StocksList
+                                    headers={this.state.stocksHeaders}
+                                    stocks={this.state.stocks}
+                                />
                             </section>
                             <Footer />
                         </>
