@@ -1,14 +1,32 @@
-import React, { useContext } from 'react';
-import { Icon, Menu, Table } from 'semantic-ui-react';
+import React, { useContext, useState } from 'react';
+import { Table, Pagination } from 'semantic-ui-react';
 import { getFormattedDateTime } from '../../utils/DateTimeFormatter';
 import { StocksSearchContext } from '../../context/StocksSearchContext';
 
+// generate random numbers between 0 to 1
 const getRandomNumbers = () => Math.random();
 
+const totalPages = (totalCount, dataPerPage) => {
+    const remainder = totalCount % dataPerPage;
+    // efficient logic
+    if (remainder < Math.round(dataPerPage / 2) && remainder > 0)
+        return Math.round(totalCount / dataPerPage) + 1;
+    return Math.round(totalCount / dataPerPage);
+};
+
 const StocksList = ({ headers, stocks }) => {
+    const ROWS_PER_PAGE = 8;
+    const INITIAL_ACTIVE_PAGINATION = 1;
     const { stockSearchData } = useContext(StocksSearchContext);
-    console.log(stockSearchData);
-    // console.log(stocks, headers);
+
+    const [currentActivePagination, setCurrentActivePagination] = useState(INITIAL_ACTIVE_PAGINATION);
+
+    const filteredStocksLength = stocks.filter(stock =>
+        stock.Symbol?.toLowerCase().includes(stockSearchData)
+        || stock.Name?.toLowerCase().includes(stockSearchData)).length;
+
+    const changePage = (event, data) => setCurrentActivePagination(data.activePage);
+
     return (
         <Table celled selectable>
             <Table.Header>
@@ -20,13 +38,12 @@ const StocksList = ({ headers, stocks }) => {
                     }
                 </Table.Row>
             </Table.Header>
-
             <Table.Body>
                 {
-                    stocks
-                        .filter(stock =>
-                            stock.Symbol?.toLowerCase().includes(stockSearchData)
-                            || stock.Name?.toLowerCase().includes(stockSearchData))
+                    stocks.filter(stock =>
+                        stock.Symbol?.toLowerCase().includes(stockSearchData)
+                        || stock.Name?.toLowerCase().includes(stockSearchData))
+                        .slice((currentActivePagination - 1) * ROWS_PER_PAGE, currentActivePagination * ROWS_PER_PAGE)
                         .map((stock, index) => {
                             return (
                                 <Table.Row key={index * getRandomNumbers()}>
@@ -47,22 +64,20 @@ const StocksList = ({ headers, stocks }) => {
                         })
                 }
             </Table.Body>
-
             <Table.Footer>
                 <Table.Row>
-                    <Table.HeaderCell colSpan='3'>
-                        <Menu floated='right' pagination>
-                            <Menu.Item as='a' icon>
-                                <Icon name='chevron left' />
-                            </Menu.Item>
-                            <Menu.Item as='a'>1</Menu.Item>
-                            <Menu.Item as='a'>2</Menu.Item>
-                            <Menu.Item as='a'>3</Menu.Item>
-                            <Menu.Item as='a'>4</Menu.Item>
-                            <Menu.Item as='a' icon>
-                                <Icon name='chevron right' />
-                            </Menu.Item>
-                        </Menu>
+                    <Table.HeaderCell colSpan={headers.length}>
+                        <Pagination
+                            boundaryRange={0}
+                            activePage={currentActivePagination}
+                            ellipsisItem={null}
+                            firstItem={null}
+                            lastItem={null}
+                            siblingRange={3}
+                            totalPages={totalPages(filteredStocksLength, ROWS_PER_PAGE)}
+                            onPageChange={changePage}
+                        // size='mini'
+                        />
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Footer>

@@ -49,6 +49,7 @@ const StocksPage = props => {
                                 stocks={stocks}
                             />
                         </section>
+                        <br />
                         <Footer />
                     </>
             }
