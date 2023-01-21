@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { Button, Icon, Image, Modal } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import { CrossButton } from '../../common/CustomButton';
+import { history } from '../../utils/history';
 
 const QuotesModal = (props) => {
     const { symbol } = useParams();
     const { name, validTill } = useLocation()?.state;
     const { isQuotesModalOpen, setQuotesModalOpen } = props;
+
+    const handleCloseModal = () => {
+        setQuotesModalOpen(false);
+        history.push('/stocks');
+    }
     return (
         <>
             <Modal
                 open={isQuotesModalOpen}
-                onClose={() => setQuotesModalOpen(false)}
+                onClose={handleCloseModal}
                 onOpen={() => setQuotesModalOpen(true)}
-                trigger={<Button>Scrolling Content Modal</Button>}
+                closeOnEscape={handleCloseModal}
             >
                 <Modal.Header>
                     <div className="modal-header">
@@ -21,7 +27,7 @@ const QuotesModal = (props) => {
                             {`[${symbol}] : ${name}`}
                         </div>
                         <div className="modal-header__close">
-                            <CrossButton />
+                            <CrossButton onClick={handleCloseModal} />
                         </div>
                     </div>
                 </Modal.Header>
@@ -29,9 +35,6 @@ const QuotesModal = (props) => {
                     <Modal.Description>
                     </Modal.Description>
                 </Modal.Content>
-                <Modal.Actions>
-                    {/* <CustomButton buttonText='Submit' /> */}
-                </Modal.Actions>
             </Modal>
         </>
     )

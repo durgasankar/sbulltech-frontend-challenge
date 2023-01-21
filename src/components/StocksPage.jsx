@@ -7,6 +7,7 @@ import { GetRequest } from '../utils/HttpRequestHandler';
 import { csvToJson } from '../utils/Covertors';
 import { PageLoadingSpinner } from '../common/Spinners';
 import { StocksSearchContext } from '../context/StocksSearchContext';
+import { history } from '../utils/history';
 
 const StocksPage = props => {
     const stocksSearchContextConsumer = useContext(StocksSearchContext);
@@ -25,7 +26,7 @@ const StocksPage = props => {
                 setStocksHeaders([...parsedJson.headers]);
                 setStocks([...parsedJson.body]);
             })
-            .catch(async errors => errors && props.history.push('/404'))
+            .catch(async errors => errors && history.push('/404'))
         await _isLoading(false);
     }
     useEffect(() => {

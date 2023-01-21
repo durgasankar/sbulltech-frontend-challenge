@@ -13,10 +13,13 @@ export const CustomButton = (props) => {
 }
 
 // Reusable Custom Close button Component
-export const CrossButton = props => {
+export const CrossButton = ({ onClick, disabled, className }) => {
     return (
-        <button className='close-button'>
-            X
+        <button
+            className={`close-button ${className}`}
+            onClick={onClick}
+            disabled={disabled}
+        >X
         </button>
     )
 }
