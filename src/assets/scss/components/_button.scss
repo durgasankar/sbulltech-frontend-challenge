@@ -27,3 +27,26 @@
         transform: translateY(-1px);
     }
 }
+
+
+.close-button {
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0.25rem 0.4rem;
+    background-image: radial-gradient(rgba($primary-color, 0.75), rgba($primary-color, 0.4));
+    border-radius: 3px;
+    transition: ease-out;
+    border: none;
+
+    &:hover {
+        background-image: radial-gradient(rgba($primary-color, 0.4), rgba($primary-color, 0.75));
+        box-shadow: 0 1px 2px 0 rgba($dark-gray-color, 0.1), 0 8px 16px 0 rgba($dark-gray-color, 0.2);
+        transform: scale(1.01);
+    }
+
+    &:active {
+        transform: translateY(-1px);
+        border: none;
+    }
+
+}

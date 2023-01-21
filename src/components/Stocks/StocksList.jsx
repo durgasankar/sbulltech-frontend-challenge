@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Table, Pagination } from 'semantic-ui-react';
 import { getFormattedDateTime } from '../../utils/DateTimeFormatter';
 import { StocksSearchContext } from '../../context/StocksSearchContext';
+import QuotesModal from './QuotesModal';
 
 // generate random numbers between 0 to 1
 const getRandomNumbers = () => Math.random();
@@ -20,6 +22,7 @@ const StocksList = ({ headers, stocks }) => {
     const { stockSearchData } = useContext(StocksSearchContext);
 
     const [currentActivePagination, setCurrentActivePagination] = useState(INITIAL_ACTIVE_PAGINATION);
+    const [isQuotesModalOpen, setQuotesModalOpen] = useState(false);
 
     const filteredStocksLength = stocks.filter(stock =>
         stock.Symbol?.toLowerCase().includes(stockSearchData)
@@ -27,65 +30,98 @@ const StocksList = ({ headers, stocks }) => {
 
     const changePage = (event, data) => setCurrentActivePagination(data.activePage);
 
+    const getQuotes = () => {
+        console.log('quotes');
+        setQuotesModalOpen(!isQuotesModalOpen);
+    }
+
     return (
-        <Table celled selectable>
-            <Table.Header>
-                <Table.Row>
+        <>
+            <Table celled selectable className='paragraph' >
+                <Table.Header>
+                    <Table.Row>
+                        {
+                            headers.map((header, index) => {
+                                return (<Table.HeaderCell className='paragraph' key={index}>{header}</Table.HeaderCell>)
+                            })
+                        }
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
                     {
-                        headers.map((header, index) => {
-                            return (<Table.HeaderCell key={index}>{header}</Table.HeaderCell>)
-                        })
-                    }
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                {
-                    stocks.filter(stock =>
-                        stock.Symbol?.toLowerCase().includes(stockSearchData)
-                        || stock.Name?.toLowerCase().includes(stockSearchData))
-                        .slice((currentActivePagination - 1) * ROWS_PER_PAGE, currentActivePagination * ROWS_PER_PAGE)
-                        .map((stock, index) => {
-                            return (
-                                <Table.Row key={index * getRandomNumbers()}>
-                                    {
-                                        headers.map((header, index) => {
-                                            if (header === 'Validtill') {
+                        stocks.filter(stock =>
+                            stock.Symbol?.toLowerCase().includes(stockSearchData)
+                            || stock.Name?.toLowerCase().includes(stockSearchData))
+                            .slice((currentActivePagination - 1) * ROWS_PER_PAGE, currentActivePagination * ROWS_PER_PAGE)
+                            .map((stock, index) => {
+                                return (
+                                    <Table.Row key={index * getRandomNumbers()}>
+                                        {
+                                            headers.map((header, index) => {
+                                                if (header === 'Symbol') {
+                                                    return (
+                                                        <Table.Cell onClick={getQuotes} className='paragraph cell__symbol' key={index * getRandomNumbers()}>
+                                                            <Link to={{
+                                                                pathname: `/quotes/${stock['Symbol']}`
+                                                            }}
+                                                                state={{
+                                                                    name: stock['Name'],
+                                                                    validTill: stock['Validtill']
+                                                                }}
+                                                            >
+                                                                <span className='cell__symbol--link'>
+                                                                    {stock[header]}
+                                                                </span>
+                                                            </Link>
+                                                        </Table.Cell>
+                                                    )
+                                                }
+                                                if (header === 'Validtill') {
+                                                    return (
+                                                        <Table.Cell className='paragraph' key={index * getRandomNumbers()} >
+                                                            {getFormattedDateTime(stock[header])}
+                                                        </Table.Cell>
+                                                    )
+                                                }
                                                 return (
-                                                    <Table.Cell key={index * getRandomNumbers()} >{getFormattedDateTime(stock[header])}</Table.Cell>
+                                                    <Table.Cell className='paragraph' key={index * getRandomNumbers()} >
+                                                        {stock[header]}
+                                                    </Table.Cell>
                                                 )
-                                            }
-                                            return (
-                                                <Table.Cell key={index * getRandomNumbers()} >{stock[header]}</Table.Cell>
-                                            )
-                                        })
-                                    }
-                                </Table.Row>
-                            )
-                        })
+                                            })
+                                        }
+                                    </Table.Row>
+                                )
+                            })
+                    }
+                </Table.Body>
+                {
+                    filteredStocksLength > 0
+                        ? <Table.Footer>
+                            <Table.Row>
+                                <Table.HeaderCell colSpan={headers.length}>
+                                    <Pagination
+                                        boundaryRange={0}
+                                        activePage={currentActivePagination}
+                                        ellipsisItem={null}
+                                        firstItem={null}
+                                        lastItem={null}
+                                        siblingRange={3}
+                                        totalPages={totalPages(filteredStocksLength, ROWS_PER_PAGE)}
+                                        onPageChange={changePage}
+                                    // size='mini'
+                                    />
+                                </Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Footer>
+                        : <span className='heading-terciary no-results-found'>Oops! No Results Found.</span>
                 }
-            </Table.Body>
+            </Table>
             {
-                filteredStocksLength > 0
-                    ? <Table.Footer>
-                        <Table.Row>
-                            <Table.HeaderCell colSpan={headers.length}>
-                                <Pagination
-                                    boundaryRange={0}
-                                    activePage={currentActivePagination}
-                                    ellipsisItem={null}
-                                    firstItem={null}
-                                    lastItem={null}
-                                    siblingRange={3}
-                                    totalPages={totalPages(filteredStocksLength, ROWS_PER_PAGE)}
-                                    onPageChange={changePage}
-                                // size='mini'
-                                />
-                            </Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Footer>
-                    : <span className='heading-terciary no-results-found'>Oops! No Results Found.</span>
+                isQuotesModalOpen &&
+                <QuotesModal isQuotesModalOpen={isQuotesModalOpen} setQuotesModalOpen={setQuotesModalOpen} />
             }
-        </Table>
+        </>
     )
 }
 

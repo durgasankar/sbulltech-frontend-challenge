@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import sbullLogo from '../assets/images/sensibull_logo.png';
 import CustomSearchBox from './CustomSearchBox';
-import CustomButton from './CustomButton';
+import { CustomButton } from './CustomButton';
 import { StocksSearchContext } from '../context/StocksSearchContext';
 
 export default function Header() {

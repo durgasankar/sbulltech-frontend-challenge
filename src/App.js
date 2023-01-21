@@ -16,6 +16,7 @@ function App() {
         <Routes history={history}>
           <Route path="/" element={<StocksPage />} exert />
           <Route path="/stocks" element={<StocksPage />} exert />
+          <Route path="/quotes/:symbol" element={<StocksPage />} />
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </Suspense>

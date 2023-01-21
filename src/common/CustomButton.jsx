@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Reusable custom Button Component
-const CustomButton = (props) => {
+export const CustomButton = (props) => {
     return (
         <button
             className='custom-button'
@@ -12,4 +12,11 @@ const CustomButton = (props) => {
     )
 }
 
-export default CustomButton;
+// Reusable Custom Close button Component
+export const CrossButton = props => {
+    return (
+        <button className='close-button'>
+            X
+        </button>
+    )
+}
