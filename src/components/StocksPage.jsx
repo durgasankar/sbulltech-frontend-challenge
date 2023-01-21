@@ -1,60 +1,59 @@
-import React, { Component } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import StocksList from './Stocks/StocksList';
-import { GetRequest } from '../utils/HttpRequestHandler';
 import API from '../utils/API';
+import { GetRequest } from '../utils/HttpRequestHandler';
 import { csvToJson } from '../utils/Covertors';
 import { PageLoadingSpinner } from '../common/Spinners';
-class StocksPage extends Component {
-    constructor(props) {
-        super(props)
+import { StocksSearchContext } from '../context/StocksSearchContext';
 
-        this.state = {
-            isInitialpageLoading: true,
-            Stocks: [],
-            stocksHeaders: [],
+const StocksPage = props => {
+    const stocksSearchContextConsumer = useContext(StocksSearchContext);
+    console.log(stocksSearchContextConsumer);
+    const [isInitialpageLoading, setIsInitialpageLoading] = useState(true);
+    const [stocks, setStocks] = useState([]);
+    const [stockSearchData, setStockSearchData] = useState([]);
+    const [stocksHeaders, setStocksHeaders] = useState([]);
 
-        }
-    }
-    componentDidMount() {
-        this.getStocksList();
-    }
+    const _isLoading = isLoading => setIsInitialpageLoading(isLoading);
 
-    getStocksList = async () => {
+    const getStocksList = async () => {
         await GetRequest(API.INSTUMENTS)
             .then(async response => {
                 const parsedJson = csvToJson(response.data);
-                this.setState({ stocks: [...parsedJson.body], stocksHeaders: [...parsedJson.headers] })
+                setStocksHeaders([...parsedJson.headers]);
+                setStocks([...parsedJson.body]);
             })
-            .catch(async errors => errors && this.props.history.push('/404'))
-        await this._isLoading(false);
+            .catch(async errors => errors && props.history.push('/404'))
+        await _isLoading(false);
     }
+    useEffect(() => {
+        getStocksList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
-    _isLoading = (isLoading) => this.setState({ isInitialpageLoading: isLoading });
-
-    render() {
-        return (
-            <>
-                {
-                    this.state.isInitialpageLoading
-                        ? <span >
-                            <PageLoadingSpinner />
-                        </span>
-                        : <>
-                            <Header />
-                            <section className='stocks-container'>
-                                <StocksList
-                                    headers={this.state.stocksHeaders}
-                                    stocks={this.state.stocks}
-                                />
-                            </section>
-                            <Footer />
-                        </>
-                }
-            </>
-        );
-    }
+    const updateStockSearchData = searchData => setStockSearchData(searchData);
+    return (
+        <StocksSearchContext.Provider value={{ stockSearchData, updateStockSearchData }}>
+            {
+                isInitialpageLoading
+                    ? <span >
+                        <PageLoadingSpinner />
+                    </span>
+                    : <>
+                        <Header />
+                        <section className='stocks-container'>
+                            <StocksList
+                                headers={stocksHeaders}
+                                stocks={stocks}
+                            />
+                        </section>
+                        <Footer />
+                    </>
+            }
+        </StocksSearchContext.Provider>
+    )
 }
 
 export default StocksPage;

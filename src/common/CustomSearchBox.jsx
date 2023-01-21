@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input as SymInput, Icon as SymIcon } from 'semantic-ui-react';
 
-const CustomSearchBox = (props) => {
+const CustomSearchBox = ({ placeholder, onChange, value }) => {
     return (
         <SymInput
             icon={<SymIcon
@@ -9,7 +9,9 @@ const CustomSearchBox = (props) => {
                 circular={true}
                 link={true}
             />}
-            placeholder='Search stock...'
+            placeholder={placeholder}
+            onChange={onChange}
+            value={value}
         />
     )
 }
