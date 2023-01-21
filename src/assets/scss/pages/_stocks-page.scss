@@ -1,3 +1,12 @@
 .stocks-container {
     margin: 2.5rem 5rem;
 }
+
+.no-results-found {
+    @include position-center;
+}
+
+// overiding global pagination styling
+.ui.pagination.menu .active.item {
+    background-color: rgba($primary-color-light, 0.5)
+}

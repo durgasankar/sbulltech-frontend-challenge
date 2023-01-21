@@ -64,23 +64,27 @@ const StocksList = ({ headers, stocks }) => {
                         })
                 }
             </Table.Body>
-            <Table.Footer>
-                <Table.Row>
-                    <Table.HeaderCell colSpan={headers.length}>
-                        <Pagination
-                            boundaryRange={0}
-                            activePage={currentActivePagination}
-                            ellipsisItem={null}
-                            firstItem={null}
-                            lastItem={null}
-                            siblingRange={3}
-                            totalPages={totalPages(filteredStocksLength, ROWS_PER_PAGE)}
-                            onPageChange={changePage}
-                        // size='mini'
-                        />
-                    </Table.HeaderCell>
-                </Table.Row>
-            </Table.Footer>
+            {
+                filteredStocksLength > 0
+                    ? <Table.Footer>
+                        <Table.Row>
+                            <Table.HeaderCell colSpan={headers.length}>
+                                <Pagination
+                                    boundaryRange={0}
+                                    activePage={currentActivePagination}
+                                    ellipsisItem={null}
+                                    firstItem={null}
+                                    lastItem={null}
+                                    siblingRange={3}
+                                    totalPages={totalPages(filteredStocksLength, ROWS_PER_PAGE)}
+                                    onPageChange={changePage}
+                                // size='mini'
+                                />
+                            </Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Footer>
+                    : <span className='heading-terciary no-results-found'>Oops! No Results Found.</span>
+            }
         </Table>
     )
 }
