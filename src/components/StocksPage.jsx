@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import StocksList from './Stocks/StocksList';
@@ -9,9 +9,7 @@ import { PageLoadingSpinner } from '../common/Spinners';
 import { StocksSearchContext } from '../context/StocksSearchContext';
 import { history } from '../utils/history';
 
-const StocksPage = props => {
-    const stocksSearchContextConsumer = useContext(StocksSearchContext);
-    console.log(stocksSearchContextConsumer);
+const StocksPage = () => {
     const [isInitialpageLoading, setIsInitialpageLoading] = useState(true);
     const [stocks, setStocks] = useState([]);
     const [stockSearchData, setStockSearchData] = useState([]);

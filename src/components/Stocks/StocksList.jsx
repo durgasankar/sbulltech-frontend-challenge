@@ -63,7 +63,7 @@ const StocksList = ({ headers, stocks }) => {
                                                             }}
                                                                 state={{
                                                                     name: stock['Name'],
-                                                                    validTill: stock['Validtill']
+                                                                    // validTill: stock['Validtill']
                                                                 }}
                                                             >
                                                                 <span className='cell__symbol--link'>
