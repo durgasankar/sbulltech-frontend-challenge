@@ -30,10 +30,7 @@ const StocksList = ({ headers, stocks }) => {
 
     const changePage = (event, data) => setCurrentActivePagination(data.activePage);
 
-    const getQuotes = () => {
-        console.log('quotes');
-        setQuotesModalOpen(!isQuotesModalOpen);
-    }
+    const getQuotes = () => setQuotesModalOpen(!isQuotesModalOpen);
 
     return (
         <>

@@ -3,13 +3,24 @@
     background-color: rgba($primary-color, 0.4);
 }
 
-.modal{
+.modal {
     &__header {
         display: flex;
         justify-content: space-between;
+
+        &__heading {
+            display: flex;
+
+            &--icon {
+                padding-left: 2rem;
+                opacity: 0.9;
+                cursor: pointer;
+            }
+        }
     }
-    &__body{
-        &--failed-to-load{
+
+    &__body {
+        &--failed-to-load {
             display: flex;
             justify-content: center;
             color: $error-message-color;

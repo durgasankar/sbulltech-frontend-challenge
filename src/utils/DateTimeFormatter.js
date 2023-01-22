@@ -19,5 +19,5 @@ export const getFormattedDateTime = (dateTime) => {
     const hour = dateObject.toLocaleString("en-US", { hour: "2-digit", hour12: false }) // 10 
     const minute = dateObject.toLocaleString("en-US", { minute: "2-digit", hour12: true }) // 30
     const second = dateObject.toLocaleString("en-US", { second: "2-digit" }) // 30
-    return `${day}-${monthName}-${year} | ${_ampmHourCalculator(hour)}:${_valueFormatter(minute)}:${second} ${hour < 12 || hour === 24 || hour === '24' ? 'am' : 'pm'}`;
+    return `${day}-${monthName}-${year} | ${_ampmHourCalculator(hour)}:${_valueFormatter(minute)}:${_valueFormatter(second)} ${hour < 12 || hour === 24 || hour === '24' ? 'am' : 'pm'}`;
 }
