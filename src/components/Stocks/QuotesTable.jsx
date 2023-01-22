@@ -1,10 +1,16 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import _ from 'lodash';
 import { Table } from 'semantic-ui-react';
 import { getFormattedDateTime } from '../../utils/DateTimeFormatter';
 
 const quotesReducer = (state, action) => {
     switch (action.type) {
+        // case 'UPDATE_QUOTES': {
+        //     return {
+        //         ...state,
+        //         quotes: state.quotes
+        //     }
+        // }
         case 'CHANGE_SORT':
             if (state.column === action.column) {
                 return {
@@ -25,9 +31,14 @@ const quotesReducer = (state, action) => {
 const QuotesTable = ({ quotes }) => {
     const [state, dispatch] = useReducer(quotesReducer, {
         column: null,
-        quotes: [...quotes],
+        quotes: quotes,
         direction: null,
     });
+
+    useEffect(() => {
+        // dispatch({ quotes: quotes, type: 'UPDATE_QUOTES' });
+        state.quotes = quotes;
+    }, [quotes, state])
 
     return (
         <Table sortable celled textAlign='center'>
