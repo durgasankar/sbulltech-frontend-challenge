@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { Modal, Icon } from 'semantic-ui-react';
+import { Modal, Icon, Popup } from 'semantic-ui-react';
 import { CrossButton } from '../../common/CustomButton';
 import { history } from '../../utils/history';
 import API from '../../utils/API';
@@ -16,11 +16,11 @@ const QuotesModal = (props) => {
     const [isQuotesDataLoading, seQuotesDataLoading] = useState(true);
     const [isQuotesFetchingFailed, setQuotesFetchingFailed] = useState(false);
     const [quotes, setQuotes] = useState([]);
-    // const [isRefresh, setRefresh] = useState(false);
+    const [isRefreshLoading, setRefreshLoading] = useState(false);
 
     const _isQuotesLoading = isLoading => seQuotesDataLoading(isLoading);
 
-    const getQuotesOfStockAPI = async () => {
+    const getQuotesOfStockAPI = async (isRefresh) => {
         try {
             await GetRequest(`${API.QUOTES}/${symbol}`)
                 .then(async response => {
@@ -29,7 +29,9 @@ const QuotesModal = (props) => {
                         setQuotes([...response.data.payload[symbol]]);
                     }
                 }).catch(async error => error && setQuotesFetchingFailed(true))
-            await _isQuotesLoading(false);
+            if (isRefresh)
+                return await setRefreshLoading(false);
+            return await _isQuotesLoading(false);
         } catch (error) {
             _isQuotesLoading(false);
             history.push('/404');
@@ -42,8 +44,9 @@ const QuotesModal = (props) => {
     }
 
     const quotesRefreshHandler = () => {
-        _isQuotesLoading(true);
-        getQuotesOfStockAPI();
+        // _isQuotesLoading(true);
+        setRefreshLoading(true)
+        getQuotesOfStockAPI(true);
     }
 
     useEffect(() => {
@@ -65,7 +68,15 @@ const QuotesModal = (props) => {
                                 {`[${symbol}] : ${name}`}
                             </div>
                             <div className="modal__header__heading--icon">
-                                <Icon name='refresh' size='small' onClick={quotesRefreshHandler} loading={isQuotesDataLoading} />
+
+                                <Popup content='Refresh Quotes'
+                                    size='small'
+                                    position='right center'
+                                    trigger={<Icon name='refresh' size='small'
+                                        onClick={quotesRefreshHandler}
+                                        loading={isRefreshLoading}
+                                    />}
+                                />
                             </div>
                         </div>
                         <div className="modal__header--close">
