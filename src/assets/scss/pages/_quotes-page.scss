@@ -3,7 +3,16 @@
     background-color: rgba($primary-color, 0.4);
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
+.modal{
+    &__header {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__body{
+        &--failed-to-load{
+            display: flex;
+            justify-content: center;
+            color: $error-message-color;
+        }
+    }
 }
